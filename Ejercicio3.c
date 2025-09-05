@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <math.h>
 
 /*
   Ejercicio 3. El problema del papá tacaño.
@@ -97,6 +98,57 @@ int parsear_token(const char *tok, Destino *d) {
  *             una política simple, p. ej., el de menor índice.
  */
 int elegir_destino(const Destino *destinos, int n) {
+    int conocidos = 0, desconocidos = 0;
+    int max_conocido = 0;
+    double suma_conocidos = 0.0;
+
+    for(int i = 0; i< n; i ++){
+        if(destinos[i].es_conocido){
+            conocidos++;
+            suma_conocidos = suma_conocidos + destinos[i].costo;
+            if(destinos[i].costo > max_conocido){
+                max_conocido = destinos[i].costo;
+            } 
+
+        } else {
+                desconocidos++;
+            }
+    }
+
+    if(desconocidos > conocidos){
+        int *indices_desconocidos = (int *)malloc(desconocidos * sizeof(int));
+        if(!indices_desconocidos)
+            return 0;
+        int count = 0;
+        for(int i = 0; i<n; i++){
+            if(!destinos[i].es_conocido){
+                indices_desconocidos[count++] = i;
+            }
+        }
+        int indice_aleatorio = indices_desconocidos[rand()% desconocidos];
+        free(indices_desconocidos);
+        return indice_aleatorio;
+    }
+
+    double media = suma_conocidos / conocidos;
+
+    int indice_elegido = -1;
+    double min_distancia = -1.0;
+
+    for(int i = 0; i<n; i++){
+        double valor_actual;
+        if(destinos[i].es_conocido){
+            valor_actual = (double)destinos[i].costo;
+        }else {
+            valor_actual = (double)(max_conocido + 1);
+        }
+        double distancia = fabs(valor_actual - media);
+
+        if(indice_elegido == -1 || distancia < min_distancia || (distancia == min_distancia && i < indice_elegido)){
+            min_distancia = distancia;
+            indice_elegido = i;
+        }
+    }
     // Escribe aquí tu función
 
     // Sugerencias de variables que podrías usar:
@@ -117,7 +169,7 @@ int elegir_destino(const Destino *destinos, int n) {
 
     // 4) Hallar el índice con distancia mínima a la media
     //      - manejar empates de forma determinista (p. ej., menor índice)
-
+    return indice_elegido;
     return -1; // Placeholder: reemplaza por el índice elegido
 }
 
