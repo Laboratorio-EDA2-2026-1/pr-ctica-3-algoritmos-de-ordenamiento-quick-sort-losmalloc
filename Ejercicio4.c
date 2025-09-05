@@ -53,8 +53,23 @@ void emparejar_tuercas_y_tornillos(int tuercas[], int tornillos[], int n) {
     //   partir_tornillos(tornillos, bajo, alto, tuercas[indicePivote]);
     //
     // Y luego hacer llamadas recursivas en los subarreglos.
+
+    emparejar_recursivo(tuercas, tornillos, 0, n-1);
 }
 //Funciones auxiliares
+
+//Emparejar recursivo
+void emparejar_recursivo(int tuercas[], int tornillos[], int bajo, int alto){
+
+    if(alto>=bajo) return;
+
+    int indicePivote=partir_tuercas(tuercas, bajo, alto, tornillos[alto]);
+    partir_tornillos(tornillos, bajo, alto, tuercas[indicePivote]);
+    emparejar_recursivo(tuercas, tornillos, indicePivote-1);
+    emparejar_recursivo(tuercas, tornillos, indicePivote+1,alto);
+
+
+}
 
 //Intercambiar:
 void intercambiar(int *a, int *b) {
@@ -65,23 +80,17 @@ void intercambiar(int *a, int *b) {
 
 //Partir tuercas:
 int partir_tuercas(int tuercas[], int bajo, int alto, int tornilloPivote){
-
-    int i=bajo;
-    for(int j=bajo; j<alto; j++){
-        if(tuercaPivote[j]<tornilloPivote){
-            int t=tuercas[i];
-            tuercas[i]=tuercas[j];
-            tuercas[j]=t;
-            i++;    
-          } else if(tornillos[j]==tuercaPivote){
-
-            intercambiar(&tuercas[i],&tuercas[alto]);
-            j--;
-          }
+    tornilloPivote = tuercas[alto];
+    int i=(bajo - 1);
+    for(int j=bajo; j<=alto; j++){
+        if(tuercas[j]<tornilloPivote){
+            i++; 
+            intercambiar(&tuercas[i], &tuercas[j]);   
+        }
     }
-
-    intercambiar(&tuercas[i],&tuercas[alto]);
-    return i;
+    intercambiar(&tuercas[i + 1],&tuercas[alto]);
+    return (i + 1);
+    return -1;
 
 }
 
@@ -93,25 +102,12 @@ int partir_tornillos(int tornillos[], int bajo, int alto, int tuercaPivote) {
     for(int j = bajo; j<= alto; j++) {
         if (tornillos[j] < tuercaPivote) {
             i++;
-            intercambiar(&tornillos[i] &tornillos[j]);
+            intercambiar(&tornillos[i], &tornillos[j]);
         }
     }
-    intercambiar(&torillos[i + 1], &tornillos[alto]);
+    intercambiar(&tornillos[i + 1], &tornillos[alto]);
     return(i + 1);
     return -1;
-}
-
-//Funcion de emparejamiento recursivo
-void emparejar_recursivo(int tuercas[], int tornillos[], int bajo, int alto){
-
-    if(alto>=bajo) return;
-
-    int indicePivote=partir_tuercas(tuercas, bajo, alto, torinillos[alto]);
-    partir_tornillos(tornillos, bajo, alto, tuercas[indicePivote]);
-    emparejar_recursivo(tuercas, tornillos, indicePivote-1);
-    emparejar_recursivo(tuercas, tornillos, indicePivote+1,alto);
-
-
 }
 
 /* Imprime un arreglo lineal */
