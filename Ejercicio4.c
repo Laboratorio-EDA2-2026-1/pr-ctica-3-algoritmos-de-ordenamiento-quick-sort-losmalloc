@@ -101,6 +101,19 @@ int partir_tornillos(int tornillos[], int bajo, int alto, int tuercaPivote) {
     return -1;
 }
 
+//Funcion de emparejamiento recursivo
+void emparejar_recursivo(int tuercas[], int tornillos[], int bajo, int alto){
+
+    if(alto>=bajo) return;
+
+    int indicePivote=partir_tuercas(tuercas, bajo, alto, torinillos[alto]);
+    partir_tornillos(tornillos, bajo, alto, tuercas[indicePivote]);
+    emparejar_recursivo(tuercas, tornillos, indicePivote-1);
+    emparejar_recursivo(tuercas, tornillos, indicePivote+1,alto);
+
+
+}
+
 /* Imprime un arreglo lineal */
 void imprimir_arreglo(const char *etiqueta, int arr[], int n) {
     printf("%s: ", etiqueta);
