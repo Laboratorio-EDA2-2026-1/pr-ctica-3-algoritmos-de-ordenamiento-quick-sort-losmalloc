@@ -64,6 +64,26 @@ void intercambiar(int *a, int *b) {
 }
 
 //Partir tuercas:
+int partir_tuercas(int tuercas[], int bajo, int alto, int tornilloPivote){
+
+    int i=bajo;
+    for(int j=bajo; j<alto; j++){
+        if(tuercaPivote[j]<tornilloPivote){
+            int t=tuercas[i];
+            tuercas[i]=tuercas[j];
+            tuercas[j]=t;
+            i++;    
+          } else if(tornillos[j]==tuercaPivote){
+
+            intercambiar(&tuercas[i],&tuercas[alto]);
+            j--;
+          }
+    }
+
+    intercambiar(&tuercas[i],&tuercas[alto]);
+    return i;
+
+}
 
 //Partir tornillos
 //Reorganiza los tornillos comparándolos con una tuerca pivote.
