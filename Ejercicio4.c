@@ -54,6 +54,32 @@ void emparejar_tuercas_y_tornillos(int tuercas[], int tornillos[], int n) {
     //
     // Y luego hacer llamadas recursivas en los subarreglos.
 }
+//Funciones auxiliares
+
+//Intercambiar:
+void intercambiar(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+//Partir tuercas:
+
+//Partir tornillos
+//Reorganiza los tornillos comparándolos con una tuerca pivote.
+int partir_tornillos(int tornillos[], int bajo, int alto, int tuercaPivote) {
+    tuercaPivote = tornillos[alto];
+    int i = (bajo-1);
+    for(int j = bajo; j<= alto; j++) {
+        if (tornillos[j] < tuercaPivote) {
+            i++;
+            intercambiar(&tornillos[i] &tornillos[j]);
+        }
+    }
+    intercambiar(&torillos[i + 1], &tornillos[alto]);
+    return(i + 1);
+    return -1;
+}
 
 /* Imprime un arreglo lineal */
 void imprimir_arreglo(const char *etiqueta, int arr[], int n) {
