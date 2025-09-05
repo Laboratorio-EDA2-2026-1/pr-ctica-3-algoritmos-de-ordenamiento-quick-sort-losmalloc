@@ -60,15 +60,14 @@ void emparejar_tuercas_y_tornillos(int tuercas[], int tornillos[], int n) {
 
 //Emparejar recursivo
 void emparejar_recursivo(int tuercas[], int tornillos[], int bajo, int alto){
+    if(bajo >= alto) return;
 
-    if(alto>=bajo) return;
+    int indicePivote= partir_tuercas(tuercas, bajo, alto, tornillos[alto]);
 
-    int indicePivote=partir_tuercas(tuercas, bajo, alto, tornillos[alto]);
     partir_tornillos(tornillos, bajo, alto, tuercas[indicePivote]);
-    emparejar_recursivo(tuercas, tornillos, indicePivote-1);
-    emparejar_recursivo(tuercas, tornillos, indicePivote+1,alto);
 
-
+    emparejar_recursivo(tuercas, tornillos, bajo, indicePivote-1);
+    emparejar_recursivo(tuercas, tornillos, indicePivote+1, alto);
 }
 
 //Intercambiar:
@@ -80,34 +79,34 @@ void intercambiar(int *a, int *b) {
 
 //Partir tuercas:
 int partir_tuercas(int tuercas[], int bajo, int alto, int tornilloPivote){
-    tornilloPivote = tuercas[alto];
-    int i=(bajo - 1);
-    for(int j=bajo; j<=alto; j++){
+    int i = bajo;
+    for(int j=bajo; j<alto; j++){
         if(tuercas[j]<tornilloPivote){
-            i++; 
-            intercambiar(&tuercas[i], &tuercas[j]);   
+            intercambiar(&tuercas[i], &tuercas[j]); 
+            i++;   
+        } else if (tuercas[j] == tornilloPivote){ 
+            intercambiar(&tuercas[j], &tuercas[alto]);
+            j--;
         }
     }
-    intercambiar(&tuercas[i + 1],&tuercas[alto]);
-    return (i + 1);
-    return -1;
-
+    intercambiar(&tuercas[i],&tuercas[alto]);
+    return i;
 }
 
 //Partir tornillos
-//Reorganiza los tornillos comparándolos con una tuerca pivote.
 int partir_tornillos(int tornillos[], int bajo, int alto, int tuercaPivote) {
-    tuercaPivote = tornillos[alto];
-    int i = (bajo-1);
-    for(int j = bajo; j<= alto; j++) {
-        if (tornillos[j] < tuercaPivote) {
-            i++;
-            intercambiar(&tornillos[i], &tornillos[j]);
+    int i = bajo;
+    for(int j=bajo; j<alto; j++){
+        if(tornillos[j]<tuercaPivote) {
+            intercambiar(&tornillos[i], &tornillos[j]); 
+            i++;   
+        } else if (tornillos[j] == tuercaPivote){ 
+            intercambiar(&tornillos[j], &tornillos[alto]);
+            j--;
         }
     }
-    intercambiar(&tornillos[i + 1], &tornillos[alto]);
-    return(i + 1);
-    return -1;
+    intercambiar(&tornillos[i],&tornillos[alto]);
+    return i;
 }
 
 /* Imprime un arreglo lineal */
