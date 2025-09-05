@@ -48,7 +48,12 @@ int particion(int arr[], int bajo, int alto) {
 */
 void quicksort(int arr[], int bajo, int alto) {
 
-    // Escribe aquí tu función
+    // Escribe aquí tu funcion
+  if( bajo < alto) {
+        int p = particion(arr, bajo, alto);
+        quicksort(arr, bajo, pivote-1);
+        quicksort(arr, pivote+1, alto);
+    }
 }
 
 /* Función auxiliar para imprimir un arreglo */
