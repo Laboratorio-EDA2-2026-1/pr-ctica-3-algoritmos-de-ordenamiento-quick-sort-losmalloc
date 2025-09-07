@@ -125,6 +125,8 @@ void imprimir_arreglo(const char *etiqueta, int arr[], int n) {
 
 int main(void) {
     int m;  // número total de pares provistos en la entrada
+
+    printf("Ingrese el numero total de piezas (tuercas + tornillos):\n");
     if (scanf("%d", &m) != 1 || m <= 0) {
         fprintf(stderr, "Error: m inválido.\n");
         return 1;
@@ -140,8 +142,13 @@ int main(void) {
 
     int n_tuercas = 0, n_tornillos = 0;
 
+    printf("\nEscriba primero el tipo de pieza: 0 si es una TUERCA, y 1 si es un TORNILLO \n");
+    printf("Después escriba el tamaño (un numero entero).\n");
+    printf("Ejemplo: 0 15 -> tuerca de tamaño 15\n");
+
     for (int i = 0; i < m; i++) {
         int tipo, valor;
+        printf("Pieza %d:\t", i+1);
         if (scanf("%d %d", &tipo, &valor) != 2) {
             fprintf(stderr, "Error: entrada inválida en la línea %d.\n", i + 2);
             free(tuercas); free(tornillos);
@@ -171,6 +178,7 @@ int main(void) {
     emparejar_tuercas_y_tornillos(tuercas, tornillos, n);
 
     // Mostrar resultados como dos arreglos lineales
+    printf("\nResultado de su emparejamiento:\n");
     imprimir_arreglo("Tuercas", tuercas, n);
     imprimir_arreglo("Tornillos", tornillos, n);
 
