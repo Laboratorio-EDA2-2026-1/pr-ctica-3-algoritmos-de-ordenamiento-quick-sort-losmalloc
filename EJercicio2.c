@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*
   Ejercicio: QuickSort con pivote = promedio de los valores en el subarreglo.
@@ -53,29 +54,32 @@ double calcular_promedio_segmento(int arr[], int bajo, int alto) {
     - Asegura progreso (evitar ciclos infinitos cuando todos son iguales).
 */
 int particion_por_promedio(int arr[], int bajo, int alto, double pivote) {
-    // Usamos una implementación tipo Hoare
-    int i = bajo - 1;
-    int j = alto + 1;
-
-    while (1){
-        // Encuentra el primer valor >= pivote desde la izquierda
-        do {
+    int i = bajo;
+    int j = alto;
+    
+    while (i <= j) {
+        // Avanzar i mientras arr[i] < pivote
+        while (i <= j && arr[i] < pivote) {
             i++;
-        } while (arr[i] < pivote);
-
-        // Encuentra el primer valor <= pivote desde la derecha
-        do {
+        }
+        
+        // Avanzar j mientras arr[j] >= pivote
+        while (j >= i && arr[j] >= pivote) {
             j--;
-        } while (arr[j] >= pivote);
-
-        // Retornar el índice de partición
-        if (i >= j){
-            return j;
-        } 
-
-        intercambiar(&arr[i], &arr[j]);
-    } 
-
+        }
+        
+        // Si aún no se han cruzado, intercambiar
+        if (i < j) {
+            intercambiar(&arr[i], &arr[j]);
+            i++;
+            j--;
+        }
+        else {
+            break;
+        }
+    }
+    
+    return j; // Retornar el índice donde termina la partición izquierda
 }
 
 /*
@@ -91,17 +95,31 @@ void quicksort_promedio(int arr[], int bajo, int alto) {
     if(bajo >= alto){
         return;
     }
-    if(bajo < alto){
-        // Paso 1
-        double pivote = calcular_promedio_segmento(arr, bajo, alto);
-
-        // Paso 2 
-        int k = particion_por_promedio(arr, bajo, alto, pivote);
-
-        // Paso 3 
-        quicksort_promedio(arr, bajo, k);
-        quicksort_promedio(arr, k + 1, alto); 
+    
+    // Caso especial: números iguales
+    
+    bool iguales = true;
+    for (int i = bajo + 1; i <= alto; i++) {
+        if (arr[i] != arr[bajo]) {
+            iguales = false;
+            break;
+        }
     }
+    
+    // Si son todos iguales se retorna porque ya está ordenado
+    if (iguales) {
+        return; 
+    }
+    
+    double pivote = calcular_promedio_segmento(arr, bajo, alto);
+    int k = particion_por_promedio(arr, bajo, alto, pivote);
+    
+    if (k < bajo) {
+        k = bajo - 1;  
+    } 
+    
+    quicksort_promedio(arr, bajo, k);
+    quicksort_promedio(arr, k + 1, alto);
 }
 
 /* Utilidad para imprimir un arreglo */
