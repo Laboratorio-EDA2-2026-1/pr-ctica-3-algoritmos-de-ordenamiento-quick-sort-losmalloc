@@ -179,8 +179,8 @@ int main(void) {
 
     // Mostrar resultados como dos arreglos lineales
     printf("\nResultado de su emparejamiento:\n");
-    imprimir_arreglo("Tuercas:", tuercas, "\ntamaño:", n);
-    imprimir_arreglo("Tornillos", tornillos, n);
+    imprimir_arreglo("Tuercas:", tuercas, n);
+    imprimir_arreglo("Tornillos:", tornillos, n);
 
     free(tuercas);
     free(tornillos);
