@@ -26,6 +26,17 @@ void intercambiar(int *a, int *b) {
     - Retornar el índice final del pivote.
 */
 int particion(int arr[], int bajo, int alto) {
+    int pivote = arr[alto];
+    int i = (bajo -1);
+
+    for(int j = bajo; j<= alto -1; j++){
+        if(arr[j] < pivote){
+            i++;
+            intercambiar(&arr[i], &arr[j]);
+        }
+    }
+    intercambiar(&arr[i + 1], &arr[alto]);
+    return(i + 1);
     // Escribe aquí tu función
     return -1; // Placeholder, reemplazar por el índice real del pivote
 }
@@ -36,6 +47,11 @@ int particion(int arr[], int bajo, int alto) {
     - Paso recursivo: llamar a particion, y aplicar QuickSort en las dos mitades.
 */
 void quicksort(int arr[], int bajo, int alto) {
+    if( bajo < alto) {
+        int p = particion(arr, bajo, alto);
+        quicksort(arr, bajo, p-1);
+        quicksort(arr, p+1, alto);
+    }
     // Escribe aquí tu función
 }
 
